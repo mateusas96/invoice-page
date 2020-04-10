@@ -16,20 +16,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
-    <style>
+    <style lang="scss" scoped>
         .btn {
-            background-color: #3490dc;
-            border: none;
-            color: white;
-            padding: 4px 13px;
-            cursor: pointer;
-            font-size: 10px;
+          background-color: #3490dc;
+          border: none;
+          color: white;
+          padding: 4px 13px;
+          cursor: pointer;
+          font-size: 10px;
         }
         .navbar {
-            background: linear-gradient(to right, #ff5f6d, #ffc371);
+          background: linear-gradient(to right, #ff5f6d, #ffc371);
         }
         .container{
-            margin-top: 50px;
+          margin-top: 50px;
+        }
+        .nav-treeview > li{
+          margin-left: 20px;
         }
 
     </style>
@@ -98,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-            <li class="nav-item">
+              <li class="nav-item">
                 <router-link to="/my-invoices" class="nav-link">
                 <i class="fas fa-file-invoice nav-icon green"></i>
                   <p>My Invoices</p>
@@ -200,7 +203,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @yield('content')
 
 <script src="{{ mix('/js/app.js') }}"></script>
-<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 <script>
 function check(){
   axios.get('api/checkForUnpaidInvoices')
