@@ -15,7 +15,16 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        
+        return DB::table('invoice.invoices')->select('invoice_number','senders_company','discount','grand_total','invoice_date','is_paid','invoice_currency')
+                ->where('invoices.client_id',auth()->user()->id)->paginate(5);
+    }
+
+    public function invoiceView(Request $iNr){
+        return DB::table('invoice.invoices')->select('*')->where('invoice_number',$iNr['get'])->get();
+    }
+
+    public function invoiceItemsView(Request $iNr){
+        return DB::table('invoice.invoices_items')->select('*')->where('invoice_number',$iNr['get'])->get();
     }
 
     public function checkForUnpaidInvoices(){
@@ -115,9 +124,9 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $iNr)
     {
-
+        return DB::table('invoice.invoices')->where('invoice_number',$iNr)->update(['is_paid' => 1]);
     }
 
     /**

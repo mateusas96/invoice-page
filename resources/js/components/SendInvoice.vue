@@ -329,7 +329,7 @@ export default {
                 .then(({data})=>{
                     this.invoice.billSendersInfo = data
                     this.invoice.company.name = this.invoice.billSendersInfo[0].companyName
-                    this.invoice.company.contact = 'Name: '+this.invoice.billSendersInfo[0].name+'\nEmail: '+this.invoice.billSendersInfo[0].email+'\nBank Account: '+this.invoice.billSendersInfo[0].bank_account
+                    this.invoice.company.contact = 'Name: '+this.invoice.billSendersInfo[0].name+',\nEmail: '+this.invoice.billSendersInfo[0].email+',\nBank Account: '+this.invoice.billSendersInfo[0].bank_account
                 })
             },
             loadBillGettersInfo(clientId){
@@ -337,7 +337,7 @@ export default {
                 for(let i in this.invoice.clientInfo){
                     if(clientId.target.value == this.invoice.clientInfo[i].id & this.invoice.clientInfo[i].bank_account != null){
                         this.invoice.clientsId = this.invoice.clientInfo[i].id
-                        this.invoice.client = 'Client\'s name: '+this.invoice.clientInfo[i].name+'\nCompany\'s name: '+this.invoice.clientInfo[i].companyName+'\nEmail: '+this.invoice.clientInfo[i].email+'\nBank Account: '+this.invoice.clientInfo[i].bank_account
+                        this.invoice.client = 'Client\'s name: '+this.invoice.clientInfo[i].name+',\nCompany\'s name: '+this.invoice.clientInfo[i].companyName+',\nEmail: '+this.invoice.clientInfo[i].email+',\nBank Account: '+this.invoice.clientInfo[i].bank_account
                     }else if (clientId.target.value == this.invoice.clientInfo[i].id & this.invoice.clientInfo[i].bank_account == null){
                         Swal.fire({
                             icon: 'error',
@@ -360,7 +360,7 @@ export default {
                         showConfirmButton: false,
                         allowOutsideClick: false
                     })
-                    // window.setTimeout(function(){window.location.reload()},3000)
+                    window.setTimeout(function(){window.location.reload()},3000)
                 })
                 .catch(()=>{this.$Progress.fail()})
             },

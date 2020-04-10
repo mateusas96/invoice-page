@@ -175,7 +175,7 @@
 </div>
 
 </template>
-<style>
+<style lang="scss" scoped>
 .message{
   margin-top: 50px;
 }
@@ -193,6 +193,9 @@
 #searchBar{
   width: 200px;
   border-radius:5px;
+}
+.fa-edit{
+  font-size:20px;
 }
 
 @media only screen and (max-width: 600px) {

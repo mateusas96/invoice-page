@@ -21,7 +21,7 @@ Route::apiResources([
     'user'=>'API\UserController',
     'bankAccount'=>'API\BankAccountController',
     'invoices'=>'API\InvoiceController',
-    ]);
+]);
 
 
 Route::get('findUser','API\UserController@search');
@@ -39,4 +39,8 @@ Route::get('billSendersInfo','API\InvoiceController@billSendersInfo')->name('inv
 Route::get('invoiceNumber','API\InvoiceController@invoiceNumber')->name('invoice.invoiceNumber');
 
 Route::get('checkForUnpaidInvoices','API\InvoiceController@checkForUnpaidInvoices')->name('invoice.checkForUnpaidInvoices');
+
+Route::get('invoiceView','API\InvoiceController@invoiceView')->name('invoice.invoiceView');
+
+Route::get('invoiceItemsView','API\InvoiceController@invoiceItemsView')->name('invoice.invoiceItemsView');
 
