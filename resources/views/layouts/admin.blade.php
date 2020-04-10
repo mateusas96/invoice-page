@@ -194,6 +194,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Footer -->
   <footer class="main-footer">
   </footer>
+  <audio id="alertSound" src="./sounds/unpaid_invoice_alert_sound.mp3" preload="auto"></audio>
 </div>
 <!-- ./wrapper -->
 @yield('content')
@@ -205,6 +206,7 @@ function check(){
   axios.get('api/checkForUnpaidInvoices')
   .then(({data})=>{
     if(data.length!=0){
+      document.getElementById('alertSound').play()
       Swal.fire({
         toast: true,
         position: 'top',
