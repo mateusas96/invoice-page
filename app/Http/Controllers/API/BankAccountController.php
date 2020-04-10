@@ -33,7 +33,8 @@ class BankAccountController extends Controller
         DB::table('invoice.bank_accounts')->insert([
             'bank_account' => $request['bank_account'],
             'user_id' => auth()->user()->id
-        ]); return "updated";
+        ]); 
+        return back();
     }
 
     /**

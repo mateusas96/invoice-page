@@ -38,3 +38,5 @@ Route::get('billSendersInfo','API\InvoiceController@billSendersInfo')->name('inv
 
 Route::get('invoiceNumber','API\InvoiceController@invoiceNumber')->name('invoice.invoiceNumber');
 
+Route::get('checkForUnpaidInvoices','API\InvoiceController@checkForUnpaidInvoices')->name('invoice.checkForUnpaidInvoices');
+

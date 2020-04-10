@@ -18,6 +18,10 @@ class InvoiceController extends Controller
         
     }
 
+    public function checkForUnpaidInvoices(){
+        return DB::table('invoice.invoices')->select('is_paid')->where('is_paid',0)->where('client_id',auth()->user()->id)->get();
+    }
+
     public function invoiceNumber(){
         return DB::table('invoice.invoices')->orderBy('invoice_number','DESC')->first()->invoice_number;
     }

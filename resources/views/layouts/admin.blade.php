@@ -200,7 +200,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script src="{{ mix('/js/app.js') }}"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
-
+<script>
+function check(){
+  axios.get('api/checkForUnpaidInvoices')
+  .then(({data})=>{
+    if(data.length!=0){
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'warning',
+        title: 'You have unpaid invoices!',
+        timer: 5000,
+        showConfirmButton: false,
+      })
+    }
+  })
+}
+check()
+setInterval(function(){check()}, 15000)
+</script>
 @yield('javascripts')
 </body>
 </html>

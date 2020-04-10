@@ -2689,7 +2689,8 @@ __webpack_require__.r(__webpack_exports__);
           icon: 'success',
           title: 'Success',
           text: 'Invoice successfully sent!',
-          showConfirmButton: false
+          showConfirmButton: false,
+          allowOutsideClick: false
         });
         window.setTimeout(function () {
           window.location.reload();

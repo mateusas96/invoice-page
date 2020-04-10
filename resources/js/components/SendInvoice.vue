@@ -357,7 +357,8 @@ export default {
                         icon: 'success',
                         title: 'Success',
                         text: 'Invoice successfully sent!',
-                        showConfirmButton: false
+                        showConfirmButton: false,
+                        allowOutsideClick: false
                     })
                     window.setTimeout(function(){window.location.reload()},3000)
                 })
