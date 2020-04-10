@@ -2691,10 +2691,7 @@ __webpack_require__.r(__webpack_exports__);
           text: 'Invoice successfully sent!',
           showConfirmButton: false,
           allowOutsideClick: false
-        });
-        window.setTimeout(function () {
-          window.location.reload();
-        }, 3000);
+        }); // window.setTimeout(function(){window.location.reload()},3000)
       })["catch"](function () {
         _this3.$Progress.fail();
       });
@@ -2717,7 +2714,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     subTotal: function subTotal() {
       var total = this.invoice.items.reduce(function (accumulator, item) {
-        item.singleItemAllCost = accumulator + item.unit_price * item.quantity;
+        accumulator + (item.singleItemAllCost = item.unit_price * item.quantity);
         return accumulator + item.unit_price * item.quantity;
       }, 0);
       this.invoice.subTotalCost = total;
