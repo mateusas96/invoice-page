@@ -2105,17 +2105,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7884,7 +7873,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".badge[data-v-45ac2c5d] {\n  font-size: 16px;\n}\n.fa-eye[data-v-45ac2c5d] {\n  font-size: 20px;\n}\n.btn[data-v-45ac2c5d] {\n  font-size: 12px;\n}", ""]);
+exports.push([module.i, ".badge[data-v-45ac2c5d] {\n  font-size: 16px;\n}\n.fa-eye[data-v-45ac2c5d] {\n  font-size: 20px;\n}\n.btn[data-v-45ac2c5d] {\n  font-size: 12px;\n}\n.form-group:last-child .bg-success[data-v-45ac2c5d] {\n  margin-left: 1rem;\n}", ""]);
 
 // exports
 
@@ -44545,13 +44534,36 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
-                          _c("strong", [_vm._v("Total invoice price: ")]),
-                          _vm._v(
-                            _vm._s(inView.grand_total) +
-                              " " +
-                              _vm._s(inView.invoice_currency) +
-                              "\r\n        "
-                          )
+                          inView.is_paid === 0
+                            ? _c("div", [
+                                _c("strong", [_vm._v("Total invoice price: ")]),
+                                _vm._v(
+                                  _vm._s(inView.grand_total) +
+                                    " " +
+                                    _vm._s(inView.invoice_currency)
+                                )
+                              ])
+                            : _c(
+                                "div",
+                                [
+                                  _c("strike", [
+                                    _c("strong", [
+                                      _vm._v("Total invoice price: ")
+                                    ]),
+                                    _vm._v(
+                                      _vm._s(inView.grand_total) +
+                                        " " +
+                                        _vm._s(inView.invoice_currency)
+                                    )
+                                  ]),
+                                  _c(
+                                    "strong",
+                                    { staticClass: "badge bg-success" },
+                                    [_vm._v(" PAID")]
+                                  )
+                                ],
+                                1
+                              )
                         ])
                       ]),
                       _vm._v(" "),
@@ -44604,12 +44616,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("div", { staticClass: "card-title users-title" }, [
         _vm._v("My Invoices")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-tools row search-bar" }, [
-        _c("div", { attrs: { id: "searchBar" } }, [
-          _c("div", { staticClass: "input-group-append" })
-        ])
       ])
     ])
   },

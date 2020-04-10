@@ -6,19 +6,7 @@
             <div class="card card-secondary">
               <div class="card-header">
                 <div class="card-title users-title">My Invoices</div>
-
-                <div class="card-tools row search-bar">
-                  <div id="searchBar">
-                    <!-- <input class="form-control form-control-sm"
-                    type="search" placeholder="Search" aria-label="Search" v-on:keyup="searchit" v-model="search"> -->
-                    <div class="input-group-append">
-                    </div>
-                  </div>
-                  <!-- <button class="btn btn-success add-new" v-on:click="newModal">
-                      Add new <i class="fas fa-user-plus"></i></button> -->
-                </div>
               </div>
-              <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-bordered table-hover">
                   <thead>
@@ -57,9 +45,6 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <!-- <pagination :data="users" 
-                v-on:pagination-change-page="getResults">
-                </pagination> -->
               </div>
             </div>
             <!-- /.card -->
@@ -143,7 +128,8 @@
         </div>
 
         <div class="form-group">
-          <strong>Total invoice price: </strong>{{inView.grand_total}} {{inView.invoice_currency}}
+          <div v-if="inView.is_paid===0"><strong>Total invoice price: </strong>{{inView.grand_total}} {{inView.invoice_currency}}</div>
+          <div v-else><strike><strong>Total invoice price: </strong>{{inView.grand_total}} {{inView.invoice_currency}}</strike><strong class="badge bg-success"> PAID</strong></div>
         </div>
 
       </div>
@@ -172,6 +158,9 @@
 }
 .btn{
   font-size:12px;
+}
+.form-group:last-child .bg-success{
+  margin-left: 1rem;
 }
 </style>
 
