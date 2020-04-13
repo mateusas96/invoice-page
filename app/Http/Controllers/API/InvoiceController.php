@@ -19,12 +19,12 @@ class InvoiceController extends Controller
                 ->where('invoices.client_id',auth()->user()->id)->paginate(5);
     }
 
-    public function invoiceView(Request $iNr){
-        return DB::table('invoice.invoices')->select('*')->where('invoice_number',$iNr['get'])->get();
+    public function invoiceView($iNr){
+        return DB::table('invoice.invoices')->select('*')->where('invoice_number',$iNr)->get();
     }
 
-    public function invoiceItemsView(Request $iNr){
-        return DB::table('invoice.invoices_items')->select('*')->where('invoice_number',$iNr['get'])->get();
+    public function invoiceItemsView($iNr){
+        return DB::table('invoice.invoices_items')->select('*')->where('invoice_number',$iNr)->get();
     }
 
     public function checkForUnpaidInvoices(){

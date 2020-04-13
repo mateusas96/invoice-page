@@ -2128,13 +2128,13 @@ __webpack_require__.r(__webpack_exports__);
     preview: function preview(INr) {
       var _this2 = this;
 
-      axios.get('api/invoiceView?get=' + INr).then(function (_ref2) {
+      axios.get('api/invoiceView/' + INr).then(function (_ref2) {
         var data = _ref2.data;
         _this2.invoiceView = data;
         var fixedValue = _this2.invoiceView[0].grand_total;
         _this2.invoiceView[0].grand_total = fixedValue.toFixed(2);
       });
-      axios.get('api/invoiceItemsView?get=' + INr).then(function (_ref3) {
+      axios.get('api/invoiceItemsView/' + INr).then(function (_ref3) {
         var data = _ref3.data;
         _this2.invoiceItemsView = data;
       });
@@ -2464,7 +2464,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  mounted: function mounted() {},
   created: function created() {
     var _this2 = this;
 

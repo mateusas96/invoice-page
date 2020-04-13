@@ -40,7 +40,7 @@ Route::get('invoiceNumber','API\InvoiceController@invoiceNumber')->name('invoice
 
 Route::get('checkForUnpaidInvoices','API\InvoiceController@checkForUnpaidInvoices')->name('invoice.checkForUnpaidInvoices');
 
-Route::get('invoiceView','API\InvoiceController@invoiceView')->name('invoice.invoiceView');
+Route::get('invoiceView/{invoiceID}','API\InvoiceController@invoiceView')->name('invoice.invoiceView');
 
-Route::get('invoiceItemsView','API\InvoiceController@invoiceItemsView')->name('invoice.invoiceItemsView');
+Route::get('invoiceItemsView/{invoiceID}','API\InvoiceController@invoiceItemsView')->name('invoice.invoiceItemsView');
 

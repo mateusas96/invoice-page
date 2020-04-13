@@ -184,14 +184,14 @@
               })
           },
           preview(INr){
-            axios.get('api/invoiceView?get='+INr)
+            axios.get('api/invoiceView/'+INr)
             .then(({data})=>{
               this.invoiceView = data
               let fixedValue = this.invoiceView[0].grand_total
               this.invoiceView[0].grand_total = fixedValue.toFixed(2)
             })
 
-            axios.get('api/invoiceItemsView?get='+INr)
+            axios.get('api/invoiceItemsView/'+INr)
             .then(({data})=>{
               this.invoiceItemsView = data
             })

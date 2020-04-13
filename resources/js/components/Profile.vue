@@ -238,9 +238,6 @@ label .important.star{
                 }
             }
         },
-        mounted() {
-
-        },
         created(){
             axios.get('api/profile')
             .then(({data}) => (this.form.fill(data)))
