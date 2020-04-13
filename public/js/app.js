@@ -2396,8 +2396,7 @@ __webpack_require__.r(__webpack_exports__);
           showConfirmButton: false,
           timer: 4000
         });
-
-        _this.loadBankAccounts();
+        window.location.reload();
       })["catch"](function (err) {
         return console.log(err);
       });

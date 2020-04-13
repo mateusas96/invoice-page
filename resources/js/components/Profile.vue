@@ -174,7 +174,7 @@ label .important.star{
                     showConfirmButton: false,
                     timer: 4000
                     })
-                    this.loadBankAccounts()
+                    window.location.reload()
                 })
                 .catch((err)=>(console.log(err)))
             },
