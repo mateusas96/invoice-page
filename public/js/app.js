@@ -2105,6 +2105,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2120,7 +2127,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/invoices').then(function (_ref) {
         var data = _ref.data;
-        _this.invoices = data.data;
+        _this.invoices = data;
         var fixedValue = _this.invoices[0].grand_total;
         _this.invoices[0].grand_total = fixedValue.toFixed(2);
       });
@@ -2837,7 +2844,7 @@ __webpack_require__.r(__webpack_exports__);
           'contact': ''
         },
         client: '',
-        invoiceDate: '',
+        invoicePaymentDueDate: '',
         invoiceNumber: ''
       })
     };
@@ -44328,7 +44335,11 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(invoice.invoice_currency))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(invoice.invoice_date))]),
+                      _c("td", [_vm._v(_vm._s(invoice.invoice_payment_date))]),
+                      _vm._v(" "),
+                      invoice.invoice_paid_at === null
+                        ? _c("td", [_vm._v("-")])
+                        : _c("td", [_vm._v(_vm._s(invoice.invoice_paid_at))]),
                       _vm._v(" "),
                       invoice.is_paid === 0
                         ? _c("td", [
@@ -44337,9 +44348,21 @@ var render = function() {
                             ])
                           ])
                         : _c("td", [
-                            _c("span", { staticClass: "badge bg-success" }, [
-                              _vm._v("Paid")
-                            ])
+                            invoice.invoice_payment_date >=
+                            invoice.invoice_paid_at
+                              ? _c(
+                                  "span",
+                                  { staticClass: "badge bg-success" },
+                                  [_vm._v("Paid")]
+                                )
+                              : invoice.invoice_payment_date <
+                                invoice.invoice_paid_at
+                              ? _c(
+                                  "span",
+                                  { staticClass: "badge bg-warning" },
+                                  [_vm._v("Paid")]
+                                )
+                              : _vm._e()
                           ]),
                       _vm._v(" "),
                       _c("td", [
@@ -44436,8 +44459,12 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
-                          _c("strong", [_vm._v("Invoice date: ")]),
-                          _vm._v(_vm._s(inView.invoice_date) + "\r\n        ")
+                          _c("u", [
+                            _c("strong", [
+                              _vm._v("Invoice payment due date: ")
+                            ]),
+                            _vm._v(_vm._s(inView.invoice_payment_date))
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
@@ -44452,84 +44479,100 @@ var render = function() {
                           _vm._v(_vm._s(inView.terms) + "\r\n        ")
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
-                          _c(
-                            "table",
-                            { staticClass: "table table-bordered" },
-                            [
-                              _vm._m(3, true),
-                              _vm._v(" "),
-                              _vm._l(_vm.invoiceItemsView, function(
-                                invoiceItems
-                              ) {
-                                return _c("tr", { key: invoiceItems.id }, [
-                                  _c("td", [
-                                    _vm._v(_vm._s(invoiceItems.item_name))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(_vm._s(invoiceItems.quantity))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(_vm._s(invoiceItems.price_per_unit))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(_vm._s(invoiceItems.total))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(_vm._s(inView.invoice_currency))
+                        _c(
+                          "div",
+                          { staticClass: "form-group table-responsive" },
+                          [
+                            _c(
+                              "table",
+                              { staticClass: "table table-bordered" },
+                              [
+                                _vm._m(3, true),
+                                _vm._v(" "),
+                                _vm._l(_vm.invoiceItemsView, function(
+                                  invoiceItems
+                                ) {
+                                  return _c("tr", { key: invoiceItems.id }, [
+                                    _c("td", [
+                                      _vm._v(_vm._s(invoiceItems.item_name))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(invoiceItems.quantity))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(invoiceItems.price_per_unit)
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(invoiceItems.total))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(inView.invoice_currency))
+                                    ])
                                   ])
-                                ])
-                              })
-                            ],
-                            2
-                          )
-                        ]),
+                                })
+                              ],
+                              2
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("table", { staticClass: "table table-bordered" }, [
-                            _c("tr", [
-                              _c("th", [_vm._v("Total discount in %")]),
-                              _vm._v(" "),
-                              _c("th", [
-                                _vm._v(
-                                  "Total discount in " +
-                                    _vm._s(inView.invoice_currency)
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Total tax in %")]),
-                              _vm._v(" "),
-                              _c("th", [
-                                _vm._v(
-                                  "Total tax in " +
-                                    _vm._s(inView.invoice_currency)
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Total invoice price")])
-                            ]),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _c("td", [
-                                _vm._v(_vm._s(inView.discount_in_percentage))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(inView.discount))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(inView.tax_in_percentage))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(inView.tax))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(inView.grand_total))])
-                            ])
-                          ])
-                        ]),
+                        _c(
+                          "div",
+                          { staticClass: "form-group table-responsive" },
+                          [
+                            _c(
+                              "table",
+                              { staticClass: "table table-bordered" },
+                              [
+                                _c("tr", [
+                                  _c("th", [_vm._v("Total discount in %")]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      "Total discount in " +
+                                        _vm._s(inView.invoice_currency)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Total tax in %")]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      "Total tax in " +
+                                        _vm._s(inView.invoice_currency)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Total invoice price")])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(inView.discount_in_percentage)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(inView.discount))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(inView.tax_in_percentage))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(inView.tax))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(inView.grand_total))])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
                           inView.is_paid === 0
@@ -44554,11 +44597,32 @@ var render = function() {
                                         _vm._s(inView.invoice_currency)
                                     )
                                   ]),
-                                  _c(
-                                    "strong",
-                                    { staticClass: "badge bg-success" },
-                                    [_vm._v(" PAID")]
-                                  )
+                                  _vm._v(" "),
+                                  inView.invoice_payment_date >=
+                                  inView.invoice_paid_at
+                                    ? _c(
+                                        "strong",
+                                        { staticClass: "badge bg-success" },
+                                        [
+                                          _vm._v(
+                                            " PAID " +
+                                              _vm._s(inView.invoice_paid_at)
+                                          )
+                                        ]
+                                      )
+                                    : inView.invoice_payment_date <
+                                      inView.invoice_paid_at
+                                    ? _c(
+                                        "strong",
+                                        { staticClass: "badge bg-warning" },
+                                        [
+                                          _vm._v(
+                                            " PAID " +
+                                              _vm._s(inView.invoice_paid_at)
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
                                 ],
                                 1
                               )
@@ -44633,7 +44697,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Invoice currency")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Invoice date")]),
+        _c("th", [_vm._v("Invoice payment due date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Invoice paid at")]),
         _vm._v(" "),
         _c("th", [_vm._v("Payment status")]),
         _vm._v(" "),
@@ -46315,34 +46381,40 @@ var render = function() {
               "div",
               { attrs: { id: "date" } },
               [
-                _c("strong", [_vm._v("Date:")]),
+                _c("strong", [_vm._v("Payment due date:")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.invoice.invoiceDate,
-                      expression: "invoice.invoiceDate"
+                      value: _vm.invoice.invoicePaymentDueDate,
+                      expression: "invoice.invoicePaymentDueDate"
                     }
                   ],
                   staticClass: "form-control",
                   class: {
-                    "is-invalid": _vm.invoice.errors.has("invoiceDate")
+                    "is-invalid": _vm.invoice.errors.has(
+                      "invoicePaymentDueDate"
+                    )
                   },
                   attrs: { type: "date" },
-                  domProps: { value: _vm.invoice.invoiceDate },
+                  domProps: { value: _vm.invoice.invoicePaymentDueDate },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.invoice, "invoiceDate", $event.target.value)
+                      _vm.$set(
+                        _vm.invoice,
+                        "invoicePaymentDueDate",
+                        $event.target.value
+                      )
                     }
                   }
                 }),
                 _c("has-error", {
-                  attrs: { form: _vm.invoice, field: "invoiceDate" }
+                  attrs: { form: _vm.invoice, field: "invoicePaymentDueDate" }
                 })
               ],
               1

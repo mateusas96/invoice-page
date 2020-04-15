@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Models\Invoice;
+use App\Models\InvoiceItems;
+use App\Models\User;
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -15,34 +19,34 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return DB::table('invoice.invoices')->select('invoice_number','senders_company','discount','grand_total','invoice_date','is_paid','invoice_currency')
-                ->where('invoices.client_id',auth()->user()->id)->paginate(5);
+        return Invoice::select('invoice_number','senders_company','discount','grand_total','invoice_created_date','invoice_payment_date','invoice_paid_at','is_paid','invoice_currency')
+                ->where('invoices.client_id',auth()->user()->id)->get();
     }
 
     public function invoiceView($iNr){
-        return DB::table('invoice.invoices')->select('*')->where('invoice_number',$iNr)->get();
+        return Invoice::where('invoice_number',$iNr)->get();
     }
 
     public function invoiceItemsView($iNr){
-        return DB::table('invoice.invoices_items')->select('*')->where('invoice_number',$iNr)->get();
+        return InvoiceItems::select('*')->where('invoice_number',$iNr)->get();
     }
 
     public function checkForUnpaidInvoices(){
-        return DB::table('invoice.invoices')->select('is_paid')->where('is_paid',0)->where('client_id',auth()->user()->id)->get();
+        return Invoice::select('is_paid')->where('is_paid',0)->where('client_id',auth()->user()->id)->get();
     }
 
     public function invoiceNumber(){
-        return DB::table('invoice.invoices')->orderBy('invoice_number','DESC')->first()->invoice_number;
+        return Invoice::orderBy('invoice_number','DESC')->first()->invoice_number;
     }
 
     public function billSendersInfo(){
-        return DB::table('invoice.users')->select('users.id','users.name','users.companyName','users.email','invoice.bank_accounts.bank_account')
+        return User::select('users.id','name','companyName','email','invoice.bank_accounts.bank_account')
                 ->leftJoin('invoice.bank_accounts','users.id','invoice.bank_accounts.user_id')
                 ->where('users.id',auth()->user()->id)->get();
     }
 
     public function billToClientList(){
-        return DB::table('invoice.users')->select('users.id','users.name','users.companyName','users.email','invoice.bank_accounts.bank_account')
+        return User::select('users.id','name','companyName','email','invoice.bank_accounts.bank_account')
                 ->leftJoin('invoice.bank_accounts','users.id','invoice.bank_accounts.user_id')
                 ->where('users.id','!=',auth()->user()->id)->get();
     }
@@ -56,7 +60,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'invoiceDate'             => 'required|date',
+            'invoicePaymentDueDate'   => 'required|date|after_or_equal:'.Carbon::now()->toDateString(),
             'company.name'            => 'required|string',
             'company.contact'         => 'required|string',
             'client'                  => 'required|string',
@@ -75,9 +79,9 @@ class InvoiceController extends Controller
         
         $itemsCount = count($request['items']);
 
-        DB::table('invoice.invoices')->insert([
+        Invoice::create([
             'invoice_number'            => "INr".$request['invoiceNumber'],
-            'invoice_date'              => $request['invoiceDate'],
+            'invoice_payment_date'      => $request['invoicePaymentDueDate'],
             'senders_company'           => $request['company.name'],
             'senders_info'              => $request['company.contact'],
             'client_id'                 => $request['clientsId'],
@@ -94,8 +98,8 @@ class InvoiceController extends Controller
         ]);
 
         for($i=0;$i<$itemsCount;$i++){
-            DB::table('invoice.invoices_items')->insert([
-                'invoice_number'        =>  "INr".$request['invoiceNumber'],
+            InvoiceItems::create([
+                'invoice_number'        =>  'INr'.$request['invoiceNumber'],
                 'item_name'             =>  $request->items[$i]['item_name'],
                 'price_per_unit'        =>  $request->items[$i]['unit_price'],
                 'quantity'              =>  $request->items[$i]['quantity'],
@@ -126,7 +130,10 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $iNr)
     {
-        return DB::table('invoice.invoices')->where('invoice_number',$iNr)->update(['is_paid' => 1]);
+        return DB::table('invoice.invoices')->where('invoice_number',$iNr)->update([
+                                                                            'is_paid' => 1,
+                                                                            'invoice_paid_at' => Carbon::now()->toDateString()
+                                                                        ]);
     }
 
     /**

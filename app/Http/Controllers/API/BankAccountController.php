@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
+use App\Models\BankAccount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +17,7 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        return DB::table('invoice.bank_accounts')->select('*')->where('user_id',auth()->user()->id)->get();
+        return BankAccount::select('id','bank_account')->where('user_id',auth()->user()->id)->get();
     }
 
     /**
@@ -30,7 +32,7 @@ class BankAccountController extends Controller
             'bank_account'          => 'required|string|min:5|max:191|unique:bank_accounts'
         ]);
 
-        DB::table('invoice.bank_accounts')->insert([
+        BankAccount::create([
             'bank_account' => $request['bank_account'],
             'user_id' => auth()->user()->id
         ]); 
@@ -68,7 +70,7 @@ class BankAccountController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('invoice.bank_accounts')->where('id',$id)->delete();
+        return BankAccount::where('id',$id)->delete();
     }
 
 }

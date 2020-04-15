@@ -28,9 +28,9 @@ Route::get('findUser','API\UserController@search');
 
 Route::get('profile','API\ProfileController@profile');
 
-Route::put('updateProfile/{updateProfile}','API\ProfileController@updateProfile')->name('profile.update');
+Route::put('updateProfile/{userID}','API\ProfileController@updateProfile')->name('profile.update');
 
-Route::put('updatePassword/{updatePassword}','API\ProfileController@updatePassword')->name('password.update');
+Route::put('updatePassword/{userID}','API\ProfileController@updatePassword')->name('password.update');
 
 Route::get('billToClientList','API\InvoiceController@billToClientList')->name('invoice.billToClientList');
 

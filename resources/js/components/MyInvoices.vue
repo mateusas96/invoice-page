@@ -16,7 +16,8 @@
                       <th>Discount</th>
                       <th>Total price</th>
                       <th>Invoice currency</th>
-                      <th>Invoice date</th>
+                      <th>Invoice payment due date</th>
+                      <th>Invoice paid at</th>
                       <th>Payment status</th>
                       <th>Preview invoice</th>
                       <td></td>
@@ -29,9 +30,12 @@
                       <td>{{invoice.discount}}</td>
                       <td>{{invoice.grand_total}}</td>
                       <td>{{invoice.invoice_currency}}</td>
-                      <td>{{invoice.invoice_date}}</td>
+                      <td>{{invoice.invoice_payment_date}}</td>
+                      <td v-if="invoice.invoice_paid_at === null">-</td>
+                      <td v-else>{{invoice.invoice_paid_at}}</td>
                       <td v-if="invoice.is_paid === 0"><span class="badge bg-danger">Not Paid</span></td>
-                      <td v-else><span class="badge bg-success">Paid</span></td>
+                      <td v-else><span class="badge bg-success" v-if="invoice.invoice_payment_date >= invoice.invoice_paid_at">Paid</span>
+                      <span class="badge bg-warning" v-else-if="invoice.invoice_payment_date < invoice.invoice_paid_at">Paid</span></td>
                       <td>
                           <a href="#" v-on:click="preview(invoice.invoice_number)">
                           <i class="fa fa-eye"></i>
@@ -78,7 +82,7 @@
         </div>
 
         <div class="form-group">
-          <strong>Invoice date: </strong>{{inView.invoice_date}}
+          <u><strong>Invoice payment due date: </strong>{{inView.invoice_payment_date}}</u>
         </div>
 
         <div class="form-group">
@@ -89,7 +93,7 @@
           <strong>Terms: </strong><br>{{inView.terms}}
         </div>
 
-        <div class="form-group">
+        <div class="form-group table-responsive">
           <table class="table table-bordered">
             <tr>
               <th>Item name</th>
@@ -108,7 +112,7 @@
           </table>
         </div>
 
-        <div class="form-group">
+        <div class="form-group table-responsive">
           <table class="table table-bordered">
             <tr>
               <th>Total discount in %</th>
@@ -129,7 +133,10 @@
 
         <div class="form-group">
           <div v-if="inView.is_paid===0"><strong>Total invoice price: </strong>{{inView.grand_total}} {{inView.invoice_currency}}</div>
-          <div v-else><strike><strong>Total invoice price: </strong>{{inView.grand_total}} {{inView.invoice_currency}}</strike><strong class="badge bg-success"> PAID</strong></div>
+          <div v-else><strike><strong>Total invoice price: </strong>{{inView.grand_total}} {{inView.invoice_currency}}</strike>
+          <strong class="badge bg-success" v-if="inView.invoice_payment_date >= inView.invoice_paid_at"> PAID {{inView.invoice_paid_at}}</strong>
+          <strong class="badge bg-warning" v-else-if="inView.invoice_payment_date < inView.invoice_paid_at"> PAID {{inView.invoice_paid_at}}</strong>
+          </div>
         </div>
 
       </div>
@@ -178,7 +185,7 @@
           loadInvoices(){
               axios.get('api/invoices')
               .then(({data})=>{
-                  this.invoices = data.data
+                  this.invoices = data
                   let fixedValue = this.invoices[0].grand_total
                   this.invoices[0].grand_total = fixedValue.toFixed(2)
               })

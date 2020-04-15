@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +43,7 @@ class ProfileController extends Controller
 
     public function profile()
     {
-        return auth()->user();
+        return User::find(auth()->user()->id);
     }
 
     public function updateProfile(Request $request, $id)

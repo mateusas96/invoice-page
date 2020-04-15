@@ -7,7 +7,7 @@
                     <div class="card-title invoice-title">Invoice tool</div>
                 </div>
                     <div class="card-body">
-                        <div id="date"><strong>Date:</strong>  <input type="date" v-model="invoice.invoiceDate" class="form-control" :class="{ 'is-invalid': invoice.errors.has('invoiceDate') }"><has-error :form="invoice" field="invoiceDate"></has-error></div>
+                        <div id="date"><strong>Payment due date:</strong>  <input type="date" v-model="invoice.invoicePaymentDueDate" class="form-control" :class="{ 'is-invalid': invoice.errors.has('invoicePaymentDueDate') }"><has-error :form="invoice" field="invoicePaymentDueDate"></has-error></div>
                         <div class="section-spacer">
                             <input type="text" placeholder="Company Name" class="company-name form-control" v-model="invoice.company.name" :class="{ 'is-invalid': invoice.errors.has('company.name') }"><has-error :form="invoice" field="company.name"></has-error>
                             <textarea v-on:keyup="adjustTextAreaHeight" v-model="invoice.company.contact" class="form-control" :class="{ 'is-invalid': invoice.errors.has('company.contact') }"></textarea><has-error :form="invoice" field="company.contact"></has-error>
@@ -301,7 +301,7 @@ export default {
                         'contact': ''
                     },
                     client: '',
-                    invoiceDate: '',
+                    invoicePaymentDueDate: '',
                     invoiceNumber: '',
                 })
             }
