@@ -70,7 +70,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="" class="brand-link">
+    <a href="/home" class="brand-link">
       <img src="./img/invoice.png" alt="Invoice logo" class="brand-image img-circle elevation-3">
       <span class="brand-text font-weight-light">Invoice tool</span>
     </a>
@@ -83,7 +83,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="./img/user.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a class="d-block">Hello, {{Auth::user()->name}}!</a>
+          <a href="/profile" class="d-block">Hello, {{Auth::user()->name}}!</a>
         </div>
       </div>
 

@@ -23,7 +23,7 @@ Auth::routes([
 ]);
 
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth', 'middleware' => 'validateBackHistory'], function(){
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('{path}', "HomeController@index")->where('path', '([A-z\-\/]+)?');
