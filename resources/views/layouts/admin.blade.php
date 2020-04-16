@@ -204,7 +204,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script src="{{ mix('/js/app.js') }}"></script>
 <script>
-function check(){
+function checkForUnpaidInvoices(){
   axios.get('api/checkForUnpaidInvoices')
   .then(({data})=>{
     if(data.length!=0){
@@ -220,8 +220,25 @@ function check(){
     }
   })
 }
-check()
-setInterval(function(){check()}, 15000)
+let once = 0
+function checkIfUserHasBankAccount(){
+  axios.get('api/bankAccount')
+  .then(({data})=>{
+    if(data.length==0 & once == 0){
+      Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: 'Add your bank account!',
+        showConfirmButton: true,
+        confirmButtonText: '<a href="/profile" style="color:white;">Add</a>'
+      })
+      once = 1
+    }
+  })
+}
+checkIfUserHasBankAccount()
+checkForUnpaidInvoices()
+setInterval(function(){checkForUnpaidInvoices()}, 15000)
 </script>
 @yield('javascripts')
 </body>

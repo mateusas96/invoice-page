@@ -2115,6 +2115,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      hasBankAccount: false,
       invoices: {},
       invoiceView: {},
       invoiceItemsView: {},
@@ -2150,25 +2151,45 @@ __webpack_require__.r(__webpack_exports__);
     payInvoice: function payInvoice(INr) {
       var _this3 = this;
 
-      this.$Progress.start();
-      axios.put('api/invoices/' + INr).then(function () {
+      if (this.hasBankAccount) {
+        this.$Progress.start();
+        axios.put('api/invoices/' + INr).then(function () {
+          Swal.fire({
+            toast: true,
+            position: 'top',
+            icon: 'success',
+            title: 'Invoice successfully paid!',
+            timer: 2000,
+            showConfirmButton: false
+          });
+
+          _this3.$Progress.finish();
+
+          _this3.loadInvoices();
+        });
+      } else {
         Swal.fire({
           toast: true,
           position: 'top',
-          icon: 'success',
-          title: 'Invoice successfully paid!',
-          timer: 2000,
+          icon: 'warning',
+          title: 'You cannot pay, because You did not set up your bank account!',
+          timer: 4000,
           showConfirmButton: false
         });
-
-        _this3.$Progress.finish();
-
-        _this3.loadInvoices();
-      });
+      }
     }
   },
   created: function created() {
+    var _this4 = this;
+
     this.loadInvoices();
+    axios.get('api/bankAccount').then(function (_ref4) {
+      var data = _ref4.data;
+
+      if (data.length != 0) {
+        _this4.hasBankAccount = true;
+      }
+    });
   }
 });
 

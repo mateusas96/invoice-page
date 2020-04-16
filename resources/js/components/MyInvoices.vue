@@ -175,6 +175,7 @@
         export default {
         data(){
             return{
+              hasBankAccount: false,
               invoices: {},
               invoiceView: {},
               invoiceItemsView: {},
@@ -206,24 +207,41 @@
             $('#previewInvoice').modal('show')
           },
           payInvoice(INr){
-            this.$Progress.start()
-            axios.put('api/invoices/'+INr)
-            .then(()=>{
-              Swal.fire({
-                toast: true,
-                position: 'top',
-                icon: 'success',
-                title: 'Invoice successfully paid!',
-                timer: 2000,
-                showConfirmButton: false,
+            if(this.hasBankAccount){
+              this.$Progress.start()
+              axios.put('api/invoices/'+INr)
+              .then(()=>{
+                Swal.fire({
+                  toast: true,
+                  position: 'top',
+                  icon: 'success',
+                  title: 'Invoice successfully paid!',
+                  timer: 2000,
+                  showConfirmButton: false,
+                })
+                this.$Progress.finish()
+                this.loadInvoices()
               })
-              this.$Progress.finish()
-              this.loadInvoices()
-            })
+            }else{
+              Swal.fire({
+                  toast: true,
+                  position: 'top',
+                  icon: 'warning',
+                  title: 'You cannot pay, because You did not set up your bank account!',
+                  timer: 4000,
+                  showConfirmButton: false,
+                })
+            }
           },
         },
         created() {
             this.loadInvoices()
+            axios.get('api/bankAccount')
+            .then(({data})=>{
+              if(data.length != 0){
+                this.hasBankAccount = true
+              }
+            })
         },
         
     }
