@@ -144,7 +144,7 @@ select {
 }
 
 .company-name {
-    font-size: 2rem;
+    font-size: 24px;
 }
 
 table{
@@ -197,14 +197,13 @@ table{
         }
 
         tr {
-            padding: 2rem 0;
+            padding: 16px 0;
         }
 
         
         td[data-label] {
             position: relative;
             padding-left: 40%; 
-            display: flex;
             align-items: center;
 
             &:before { 
@@ -224,17 +223,12 @@ button {
     background-color: $green;
     border: none;
     border-radius: 100px;
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
 
-    &:focus {
-        outline-color: $yellow;
-        background-color: darken($color: $green, $amount: 7%);
-    }
-
     &:hover {
-        background-color: darken($color: $green, $amount: 5%);
+        background-color: darken($color: $green, $amount: 20%);
     }
 
     @media print {
@@ -243,13 +237,9 @@ button {
 
     &.is-danger{
         background-color: $red;
-
-        &:focus {
-            background-color: darken($color: $red, $amount: 7%);
-        }
     
         &:hover {
-            background-color: darken($color: $red, $amount: 5%);
+            background-color: darken($color: $red, $amount: 20%);
         }
     }
 }
@@ -382,7 +372,7 @@ export default {
         computed: {
             subTotal() {
                 let total = this.invoice.items.reduce(function(accumulator, item) {
-                    accumulator + (item.singleItemAllCost = (item.unit_price * item.quantity))
+                    item.singleItemAllCost = (item.unit_price * item.quantity)
                     return accumulator + (item.unit_price * item.quantity)
                 }, 0)
                 this.invoice.subTotalCost = total
