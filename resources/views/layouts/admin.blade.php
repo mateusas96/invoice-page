@@ -204,24 +204,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script src="{{ mix('/js/app.js') }}"></script>
 <script>
-function checkForUnpaidInvoices(){
-  axios.get('api/checkForUnpaidInvoices')
-  .then(({data})=>{
-    if(data.length!=0){
-      document.getElementById('alertSound').play()
-      Swal.fire({
-        toast: true,
-        position: 'top',
-        icon: 'warning',
-        title: 'You have unpaid invoices!',
-        timer: 5000,
-        showConfirmButton: false,
-      })
-    }
-  })
-}
-checkForUnpaidInvoices()
-setInterval(function(){checkForUnpaidInvoices()}, 120000)
+// COMMENTED BECAUSE EXTERANL DB IS CRASHING OF THIS :)
+//
+//
+// function checkForUnpaidInvoices(){
+//   axios.get('api/checkForUnpaidInvoices')
+//   .then(({data})=>{
+//     if(data.length!=0){
+//       document.getElementById('alertSound').play()
+//       Swal.fire({
+//         toast: true,
+//         position: 'top',
+//         icon: 'warning',
+//         title: 'You have unpaid invoices!',
+//         timer: 5000,
+//         showConfirmButton: false,
+//       })
+//     }
+//   })
+// }
+// checkForUnpaidInvoices()
+// setInterval(function(){checkForUnpaidInvoices()}, 120000)
 </script>
 @yield('javascripts')
 </body>
