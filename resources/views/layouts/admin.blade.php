@@ -221,7 +221,7 @@ function checkForUnpaidInvoices(){
   })
 }
 checkForUnpaidInvoices()
-setInterval(function(){checkForUnpaidInvoices()}, 15000)
+setInterval(function(){checkForUnpaidInvoices()}, 30000)
 </script>
 @yield('javascripts')
 </body>
