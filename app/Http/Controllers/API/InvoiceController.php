@@ -28,7 +28,7 @@ class InvoiceController extends Controller
     }
 
     public function invoiceItemsView($iNr){
-        return InvoiceItems::select('*')->where('invoice_number',$iNr)->get();
+        return InvoiceItems::where('invoice_number',$iNr)->get();
     }
 
     public function checkForUnpaidInvoices(){
@@ -130,10 +130,10 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $iNr)
     {
-        return DB::table('invoice.invoices')->where('invoice_number',$iNr)->update([
-                                                                            'is_paid' => 1,
-                                                                            'invoice_paid_at' => Carbon::now()->toDateString()
-                                                                        ]);
+        return Invoice::where('invoice_number',$iNr)->update([
+                                                            'is_paid' => 1,
+                                                            'invoice_paid_at' => Carbon::now()->toDateString()
+                                                        ]);
     }
 
     /**
