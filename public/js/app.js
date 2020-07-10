@@ -46980,7 +46980,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { "data-label": "Price per unite" } }, [
+                    _c("td", { attrs: { "data-label": "Price per unit" } }, [
                       _c("div", { staticClass: "cell-with-input" }, [
                         _c("div", [
                           _vm._v(_vm._s(_vm.invoice.invoiceCurrency.symbol))

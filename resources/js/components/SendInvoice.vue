@@ -36,7 +36,7 @@
                     <tr v-for="(item, index) in invoice.items" :key="index">
                         <td data-label="No">{{ index + 1 }}</td>
                         <td data-label="Item"><input type="text" v-model="item.item_name" placeholder="Item name" class="form-control" :class="{ 'is-invalid': invoice.errors.has('items.'+index+'.item_name') }" /></td>
-                        <td data-label="Price per unite"><div class="cell-with-input"><div>{{ invoice.invoiceCurrency.symbol }}</div><input type="number" min="0" v-model="item.unit_price" class="form-control" :class="{ 'is-invalid': invoice.errors.has('items.'+index+'.unit_price') }" /></div></td>
+                        <td data-label="Price per unit"><div class="cell-with-input"><div>{{ invoice.invoiceCurrency.symbol }}</div><input type="number" min="0" v-model="item.unit_price" class="form-control" :class="{ 'is-invalid': invoice.errors.has('items.'+index+'.unit_price') }" /></div></td>
                         <td data-label="Quantity"><input type="number" min="0" v-model="item.quantity" class="form-control" :class="{ 'is-invalid': invoice.errors.has('items.'+index+'.quantity') }" /></td>
                         <td data-label="Total">{{ decimalDigits(item.unit_price * item.quantity) }}</td>
                         <td class="text-right"><button class="is-danger" v-on:click="deleteItem(index)">Delete item</button></td>
