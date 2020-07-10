@@ -40,14 +40,14 @@ class InvoiceController extends Controller
     }
 
     public function billSendersInfo(){
-        return User::select('users.id','name','companyName','email','invoice.bank_accounts.bank_account')
-                ->leftJoin('invoice.bank_accounts','users.id','invoice.bank_accounts.user_id')
+        return User::select('users.id','name','companyName','email','bank_accounts.bank_account')
+                ->leftJoin('bank_accounts','users.id','bank_accounts.user_id')
                 ->where('users.id',auth()->user()->id)->get();
     }
 
     public function billToClientList(){
-        return User::select('users.id','name','companyName','email','invoice.bank_accounts.bank_account')
-                ->leftJoin('invoice.bank_accounts','users.id','invoice.bank_accounts.user_id')
+        return User::select('users.id','name','companyName','email','bank_accounts.bank_account')
+                ->leftJoin('bank_accounts','users.id','bank_accounts.user_id')
                 ->where('users.id','!=',auth()->user()->id)->get();
     }
 
