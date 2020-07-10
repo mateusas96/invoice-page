@@ -7,7 +7,7 @@
                     <div class="card-title invoice-title">Invoice tool</div>
                 </div>
                     <div class="card-body">
-                        <div id="date"><strong>Payment due date:</strong>  <input type="date" v-model="invoice.invoicePaymentDueDate" class="form-control" :class="{ 'is-invalid': invoice.errors.has('invoicePaymentDueDate') }"><has-error :form="invoice" field="invoicePaymentDueDate"></has-error></div>
+                        <div id="date"><strong>Payment due date:</strong>  <input type="date" v-model="invoice.invoicePaymentDueDate" :min="minDate()" class="form-control" :class="{ 'is-invalid': invoice.errors.has('invoicePaymentDueDate') }"><has-error :form="invoice" field="invoicePaymentDueDate"></has-error></div>
                         <div class="section-spacer">
                             <input type="text" placeholder="Company Name" class="company-name form-control" v-model="invoice.company.name" :class="{ 'is-invalid': invoice.errors.has('company.name') }"><has-error :form="invoice" field="company.name"></has-error>
                             <textarea v-on:keyup="adjustTextAreaHeight" v-model="invoice.company.contact" class="form-control" :class="{ 'is-invalid': invoice.errors.has('company.contact') }"></textarea><has-error :form="invoice" field="company.contact"></has-error>
@@ -367,7 +367,21 @@ export default {
                 let el = event.target
                 el.style.height = "0px"
                 el.style.height = (25+el.scrollHeight)+"px"
-            }
+            },
+            minDate(){
+                let today = new Date();
+                let dd = today.getDate()-1;
+                let mm = today.getMonth()+1;
+                let yyyy = today.getFullYear();
+                if(dd < 10){
+                    dd = '0' + dd;
+                } 
+                if(mm < 10){
+                    mm = '0'+ mm;
+                } 
+
+                return today = yyyy + '-' + mm + '-' + dd;
+            },
         },
         computed: {
             subTotal() {
