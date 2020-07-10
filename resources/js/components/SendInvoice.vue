@@ -370,7 +370,7 @@ export default {
             },
             minDate(){
                 let today = new Date();
-                let dd = today.getDate()-1;
+                let dd = today.getDate();
                 let mm = today.getMonth()+1;
                 let yyyy = today.getFullYear();
                 if(dd < 10){
